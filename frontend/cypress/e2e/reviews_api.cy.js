@@ -1,4 +1,4 @@
-describe('login page with api', ()=> {
+describe('addind a review', ()=> {
     let authToken;
 
     it('login test true', () => {
@@ -16,17 +16,21 @@ describe('login page with api', ()=> {
             authToken = response.body.token;
         })
     })
-    
-    it('login test false', () => {
+
+    it('adding a review', () => {
         cy.request ({
             method: 'POST',
-            url:'http://localhost:8081/login',
+            url:'http://localhost:8081/reviews',
+            headers: {
+                Authorization: `Bearer ${authToken}`
+              },
             body: {
-                username: 'test2@test.fr',
-                password: '1234'},
-            failOnStatusCode:false
+                title: 'Ceci est le titre de mon avis',
+                comment: 'Ceci est un commentaire pour tester les avis',
+                rating: '5'
+            }
         }).then((response) => {
-            expect(response.status).to.eq(401); 
+            expect(response.status).to.eq(200);
         })
     })
 })
