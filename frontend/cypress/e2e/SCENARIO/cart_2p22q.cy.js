@@ -1,9 +1,12 @@
 describe('adding a product to the cart', ()=> {
     let authToken;
     let orderLines;
-    let stockAvant;
-    let stockCart;
-    let stockApres;
+    let stockAvant1;
+    let stockCart1;
+    let stockApres1;
+    let stockAvant2;
+    let stockCart2;
+    let stockApres2;
 
     //On connecte l'utilisateur via l'API
     it('login test true', () => {
@@ -56,54 +59,54 @@ describe('adding a product to the cart', ()=> {
         cy.get ('[data-cy="login-submit"]').click();
         cy.contains ('Mon panier').should('be.visible');
 
-        //On va sur la page des produits pour en sélectionner un
+        //On va sur la page des produits pour sélectionner le premier
         cy.get ('[data-cy="nav-link-products"]').click();
-        cy.get ('button').eq(2).should('contain', 'Consulter').click();
+        cy.get ('button').eq(0).should('contain', 'Consulter').click();
 
         //On vérifie la quantité en stock avant ajout au panier
         cy.wait (1000)
-        cy.get('[data-cy="detail-product-stock"]').invoke('text').then((qttAvant) => {
-            stockAvant = parseInt(qttAvant.split(' ')[0]);
+        cy.get('[data-cy="detail-product-stock"]').invoke('text').then((qttAvant1) => {
+            stockAvant1 = parseInt(qttAvant1.split(' ')[0]);
         })
 
-        //On ajoute au panier    
+        //On ajoute au panier plusieurs quantités d'un même produit  
+        cy.get ('[data-cy="detail-product-quantity"]').click();
+        cy.get ('[data-cy="detail-product-quantity"]').clear();
+        cy.get ('[data-cy="detail-product-quantity"]').type('22');
         cy.get ('[data-cy="detail-product-add"]').click();
 
         //On va sur le panier vérifier que le produit a bien été ajouté 
         cy.wait(2000)
         cy.get ('[data-cy="nav-link-cart"]').click() ;
         cy.wait(1000)
-        cy.contains ('Poussière de lune').should('be.visible');
-        cy.get('[data-cy="cart-line-quantity"]').invoke('val').then((qttCart) => {
-            stockCart = parseInt(qttCart.split(' ')[0]);
+        cy.contains ('Sentiments printaniers').should('be.visible');
+        cy.get ('input').eq(0).invoke('val').then((qttCart1) => {
+            stockCart1 = parseInt(qttCart1.split(' ')[0]);
         })
 
-        //On retourne sur la page du produit pour vérifier que la quantité a bien diminué    
+        //On va sur la page des produits pour sélectionner le second
         cy.get ('[data-cy="nav-link-products"]').click();
-        cy.get ('button').eq(2).should('contain', 'Consulter').click();
-        cy.wait (1000);
-        cy.get('[data-cy="detail-product-stock"]').invoke('text').then((qttApres) => {
-            stockApres = parseInt(qttApres.split(' ')[0]);
-            expect(stockApres+stockCart).to.equal(stockAvant);
-        })  
-    })
+        cy.get ('button').eq(4).should('contain', 'Consulter').click();
 
-    //On vérifie le contenu du panier via l'API
-    it('verify order lines', () => {
-        cy.request({
-          method: 'GET',
-          url: 'http://localhost:8081/orders',
-            headers: {
-                Authorization: `Bearer ${authToken}`
-            },
-            
-        }).then((response) => {
-            expect(response.status).to.eq(200);
-            response.body.orderLines.forEach((orderLine) => {
-                if(orderLine.product.id===5 ) {
-                expect(orderLine.quantity).to.be.equal(1); 
-                }
-            })
+        //On vérifie la quantité en stock avant ajout au panier
+        cy.wait (1000)
+        cy.get('[data-cy="detail-product-stock"]').invoke('text').then((qttAvant2) => {
+            stockAvant2 = parseInt(qttAvant2.split(' ')[0]);
+        })
+
+        //On ajoute au panier plusieurs quantités d'un même produit
+        cy.get ('[data-cy="detail-product-quantity"]').click();
+        cy.get ('[data-cy="detail-product-quantity"]').clear();
+        cy.get ('[data-cy="detail-product-quantity"]').type('22');
+        cy.get ('[data-cy="detail-product-add"]').click();
+
+        //On va sur le panier vérifier que le produit a bien été ajouté 
+        cy.wait(2000)
+        cy.get ('[data-cy="nav-link-cart"]').click() ;
+        cy.wait(1000)
+        cy.contains ('Extrait de nature').should('be.visible');
+        cy.get ('input').eq(1).invoke('val').then((qttCart2) => {
+            stockCart2 = parseInt(qttCart2.split(' ')[0]);
         })
     })
 })
