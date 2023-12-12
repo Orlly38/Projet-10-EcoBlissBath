@@ -1,27 +1,33 @@
 # EcoBlissBath
+Eco Bliss Bath est une start-up de 20 personnes, spécialisée dans la vente de produits de beauté écoresponsables dont le produit principal est un savon solide. 
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.0.
+La boutique prépare un site de vente en ligne.
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+# Prérequis
+Vous avez besoin d'avoir Docker, Node.js, NPM et Cypress.
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+# Lancer le projet 
+Back-End : 
+Saisir “docker-compose up -d” dans le terminal de commande pour lancer le back-end
+Saisir “docker-compose down” dans le terminal de commande pour stopper le back-end
 
-## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Front-End : 
+Saisir “npm install” dans le terminal de commande puis “npm start”
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Cypress : 
+Saisir “npx cypress run” dans le terminal de commande
 
-## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+# Login
+Identifiant: test2@test.fr
+Mot de passe : testtest
 
-## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+# Auteur
+DORCHE Aurélie
+
+Contact : dorche.aurelie@gmail.com

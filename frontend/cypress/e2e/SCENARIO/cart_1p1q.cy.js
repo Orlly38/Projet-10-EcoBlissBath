@@ -1,26 +1,14 @@
+import {loginUser} from "../FUNCTIONS/login"
+
 describe('adding a product to the cart', ()=> {
-    let authToken;
     let orderLines;
     let stockAvant;
     let stockCart;
     let stockApres;
 
-    //On connecte l'utilisateur via l'API
-    it('login test true', () => {
-        cy.request ({
-            method: 'POST',
-            url:'http://localhost:8081/login',
-            body: {
-                username: 'test2@test.fr',
-                password: 'testtest'
-            }
-        }).then((response) => {
-            expect(response.status).to.eq(200);
-            expect(response.body).to.have.property('token');
 
-            authToken = response.body.token;
-        })
-    })
+    let authToken = loginUser();
+alert (authToken)
 
     //On vérifie si il y a des produits dans le panier et si oui, on les supprime
     it('verify order lines', () => {
