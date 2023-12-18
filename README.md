@@ -23,7 +23,8 @@ Cypress :
 Saisir “npx cypress run” dans le terminal de commande
 
 
-Pour obtenir un rapport de tests au format HTML :
+# Pour obtenir un rapport de tests au format HTML
+
 Saisir "npx cypress run --reporter mochawesome" et laisser les tests tourner
 
 Ensuite, saisir "npx mochawesome-merge cypress/report/mochawesome-report/*.json > cypress/report/output.json" pour fusionner tous les rapports en un seul
@@ -33,6 +34,7 @@ Et pour finir, saisir "npx marge cypress/report/output.json --reportDir ./ --inl
 
 # Login
 Identifiant: test2@test.fr
+
 Mot de passe : testtest
 
 
