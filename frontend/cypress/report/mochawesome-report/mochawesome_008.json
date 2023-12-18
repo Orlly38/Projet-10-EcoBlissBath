@@ -1,0 +1,182 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 5,
+    "passes": 5,
+    "pending": 0,
+    "failures": 0,
+    "start": "2023-12-18T09:14:56.032Z",
+    "end": "2023-12-18T09:15:09.165Z",
+    "duration": 13133,
+    "testsRegistered": 5,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "8a0caa35-42b9-4a97-ba4e-a2211dfeb35d",
+      "title": "",
+      "fullFile": "cypress\\e2e\\SCENARIO\\cart_2p2q.cy.js",
+      "file": "cypress\\e2e\\SCENARIO\\cart_2p2q.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "91dde1a1-a301-4af5-a2b9-1b9e4a3bf0a9",
+          "title": "adding a product to the cart",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "login test true",
+              "fullTitle": "adding a product to the cart login test true",
+              "timedOut": null,
+              "duration": 497,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.request({\n  method: 'POST',\n  url: 'http://localhost:8081/login',\n  body: {\n    username: 'test2@test.fr',\n    password: 'testtest'\n  }\n}).then(response => {\n  expect(response.status).to.eq(200);\n  expect(response.body).to.have.property('token');\n  authToken = response.body.token;\n});",
+              "err": {},
+              "uuid": "b7fce49c-9e97-41dd-95ae-115d709804bc",
+              "parentUUID": "91dde1a1-a301-4af5-a2b9-1b9e4a3bf0a9",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "verify order lines",
+              "fullTitle": "adding a product to the cart verify order lines",
+              "timedOut": null,
+              "duration": 376,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.request({\n  method: 'GET',\n  url: 'http://localhost:8081/orders',\n  headers: {\n    Authorization: `Bearer ${authToken}`\n  }\n}).then(response => {\n  expect(response.status).to.eq(200);\n  orderLines = response.body.orderLines;\n  orderLines.forEach(line => {\n    cy.request({\n      method: 'DELETE',\n      url: 'http://localhost:8081/orders/' + line.id + '/delete',\n      headers: {\n        Authorization: `Bearer ${authToken}`\n      }\n    });\n  });\n});",
+              "err": {},
+              "uuid": "e5d5e7f1-738a-4e3a-8683-9bbee7020e22",
+              "parentUUID": "91dde1a1-a301-4af5-a2b9-1b9e4a3bf0a9",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "adding a product to the cart",
+              "fullTitle": "adding a product to the cart adding a product to the cart",
+              "timedOut": null,
+              "duration": 10339,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "(0, _connection.connexion)();\n//On va sur la page des produits pour sélectionner le premier\ncy.get('[data-cy=\"nav-link-products\"]').click();\ncy.get('button').eq(7).should('contain', 'Consulter').click();\n//On vérifie la quantité en stock avant ajout au panier\ncy.wait(1000);\ncy.get('[data-cy=\"detail-product-stock\"]').invoke('text').then(qttAvant1 => {\n  stockAvant1 = parseInt(qttAvant1.split(' ')[0]);\n});\n//On ajoute au panier plusieurs quantités d'un même produit  \ncy.get('[data-cy=\"detail-product-quantity\"]').click();\ncy.get('[data-cy=\"detail-product-quantity\"]').clear();\ncy.get('[data-cy=\"detail-product-quantity\"]').type('2');\ncy.get('[data-cy=\"detail-product-add\"]').click();\n//On va sur le panier vérifier que le produit a bien été ajouté \ncy.get('[data-cy=\"nav-link-cart\"]').click();\ncy.contains('Vos informations').should('exist');\ncy.contains('Aurore boréale').should('be.visible');\ncy.get('input').eq(0).invoke('val').then(qttCart1 => {\n  stockCart1 = parseInt(qttCart1.split(' ')[0]);\n});\n//On retourne sur la page du produit pour vérifier que la quantité a bien diminué    \ncy.get('[data-cy=\"nav-link-products\"]').click();\ncy.get('button').eq(7).should('contain', \"Consulter\").click();\ncy.wait(1000);\ncy.get('[data-cy=\"detail-product-stock\"]').invoke('text').then(qttApres1 => {\n  stockApres1 = parseInt(qttApres1.split(' ')[0]);\n  expect(stockApres1 + stockCart1).to.equal(stockAvant1);\n});\n//On va sur la page des produits pour sélectionner le second\ncy.get('[data-cy=\"nav-link-products\"]').click();\ncy.get('button').eq(4).should('contain', 'Consulter').click();\n//On vérifie la quantité en stock avant ajout au panier\ncy.wait(1000);\ncy.get('[data-cy=\"detail-product-stock\"]').invoke('text').then(qttAvant2 => {\n  stockAvant2 = parseInt(qttAvant2.split(' ')[0]);\n});\n//On ajoute au panier plusieurs quantités d'un même produit\ncy.get('[data-cy=\"detail-product-quantity\"]').click();\ncy.get('[data-cy=\"detail-product-quantity\"]').clear();\ncy.get('[data-cy=\"detail-product-quantity\"]').type('2');\ncy.get('[data-cy=\"detail-product-add\"]').click();\n//On va sur le panier vérifier que le produit a bien été ajouté \ncy.get('[data-cy=\"nav-link-cart\"]').click();\ncy.contains('Vos informations').should('exist');\ncy.contains('Extrait de nature').should('be.visible');\ncy.get('input').eq(1).invoke('val').then(qttCart2 => {\n  stockCart2 = parseInt(qttCart2.split(' ')[0]);\n});\n//On retourne sur la page du produit pour vérifier que la quantité a bien diminué    \ncy.get('[data-cy=\"nav-link-products\"]').click();\ncy.get('button').eq(4).should('contain', \"Consulter\").click();\ncy.wait(1000);\ncy.get('[data-cy=\"detail-product-stock\"]').invoke('text').then(qttApres2 => {\n  stockApres2 = parseInt(qttApres2.split(' ')[0]);\n  expect(stockApres2 + stockCart2).to.equal(stockAvant2);\n});",
+              "err": {},
+              "uuid": "c9386337-e74a-462f-a8fc-0af09b492c96",
+              "parentUUID": "91dde1a1-a301-4af5-a2b9-1b9e4a3bf0a9",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "login test true",
+              "fullTitle": "adding a product to the cart login test true",
+              "timedOut": null,
+              "duration": 479,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.request({\n  method: 'POST',\n  url: 'http://localhost:8081/login',\n  body: {\n    username: 'test2@test.fr',\n    password: 'testtest'\n  }\n}).then(response => {\n  expect(response.status).to.eq(200);\n  expect(response.body).to.have.property('token');\n  authToken = response.body.token;\n});",
+              "err": {},
+              "uuid": "91ed6b93-6c75-403a-9356-f05108f6d966",
+              "parentUUID": "91dde1a1-a301-4af5-a2b9-1b9e4a3bf0a9",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "verify order lines",
+              "fullTitle": "adding a product to the cart verify order lines",
+              "timedOut": null,
+              "duration": 127,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.request({\n  method: 'GET',\n  url: 'http://localhost:8081/orders',\n  headers: {\n    Authorization: `Bearer ${authToken}`\n  }\n}).then(response => {\n  expect(response.status).to.eq(200);\n  response.body.orderLines.forEach(orderLine => {\n    if (orderLine.product.id === 10) {\n      expect(orderLine.quantity).to.be.equal(2);\n    }\n    if (orderLine.product.id === 7) {\n      expect(orderLine.quantity).to.be.equal(2);\n    }\n  });\n});",
+              "err": {},
+              "uuid": "f8c2dd06-cb99-4a49-80b3-4c3572bfdfe0",
+              "parentUUID": "91dde1a1-a301-4af5-a2b9-1b9e4a3bf0a9",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "b7fce49c-9e97-41dd-95ae-115d709804bc",
+            "e5d5e7f1-738a-4e3a-8683-9bbee7020e22",
+            "c9386337-e74a-462f-a8fc-0af09b492c96",
+            "91ed6b93-6c75-403a-9356-f05108f6d966",
+            "f8c2dd06-cb99-4a49-80b3-4c3572bfdfe0"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 11818,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/report/mochawesome-report",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "charts": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

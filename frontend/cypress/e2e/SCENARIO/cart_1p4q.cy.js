@@ -1,4 +1,7 @@
+import {connexion} from "../FUNCTIONS/connection"
+
 describe('adding a product to the cart', ()=> {
+
     let authToken;
     let orderLines;
     let stockAvant;
@@ -45,16 +48,9 @@ describe('adding a product to the cart', ()=> {
         }) 
     })
 
-    //On va sur le site 
-    it('adding a product to the cart', () => {
-        cy.visit ('http://localhost:8080/#/')
-
-        // On se connecte en tant que client pour avoir accès au panier
-        cy.get ('[data-cy="nav-link-login"]').click();
-        cy.get ('[data-cy="login-input-username"]').type('test2@test.fr');
-        cy.get ('[data-cy="login-input-password"]').type('testtest');
-        cy.get ('[data-cy="login-submit"]').click();
-        cy.contains ('Mon panier').should('be.visible');
+        //On va sur le site 
+        it('adding a product to the cart', () => {
+            connexion ()
 
         //On va sur la page des produits pour en sélectionner un
         cy.get ('[data-cy="nav-link-products"]').click();
@@ -73,9 +69,8 @@ describe('adding a product to the cart', ()=> {
         cy.get ('[data-cy="detail-product-add"]').click();
 
         //On va sur le panier vérifier que le produit a bien été ajouté 
-        cy.wait(2000)
         cy.get ('[data-cy="nav-link-cart"]').click() ;
-        cy.wait(1000)
+        cy.contains('Vos informations').should('exist');
         cy.contains ('Poussière de lune').should('be.visible');
         cy.get('[data-cy="cart-line-quantity"]').invoke('val').then((qttCart) => {
             stockCart = parseInt(qttCart.split(' ')[0]);
@@ -89,6 +84,23 @@ describe('adding a product to the cart', ()=> {
             stockApres = parseInt(qttApres.split(' ')[0]);
             expect(stockApres+stockCart).to.equal(stockAvant);
         })  
+    })
+
+    //On connecte l'utilisateur via l'API
+    it('login test true', () => {
+        cy.request ({
+            method: 'POST',
+            url:'http://localhost:8081/login',
+            body: {
+            username: 'test2@test.fr',
+            password: 'testtest'
+            }
+        }).then((response) => {
+        expect(response.status).to.eq(200);
+        expect(response.body).to.have.property('token');
+
+        authToken = response.body.token;
+        })
     })
 
     //On vérifie le contenu du panier via l'API

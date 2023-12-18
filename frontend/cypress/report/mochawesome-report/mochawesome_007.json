@@ -1,0 +1,144 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 3,
+    "passes": 3,
+    "pending": 0,
+    "failures": 0,
+    "start": "2023-12-18T09:14:48.375Z",
+    "end": "2023-12-18T09:14:54.680Z",
+    "duration": 6305,
+    "testsRegistered": 3,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "2eb53250-fd2e-4e1a-b5ca-898d09476e38",
+      "title": "",
+      "fullFile": "cypress\\e2e\\SCENARIO\\cart_2p22q.cy.js",
+      "file": "cypress\\e2e\\SCENARIO\\cart_2p22q.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "5c8975b7-c6b7-4c3f-b0a4-564c5ce05546",
+          "title": "adding a product to the cart",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "login test true",
+              "fullTitle": "adding a product to the cart login test true",
+              "timedOut": null,
+              "duration": 470,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.request({\n  method: 'POST',\n  url: 'http://localhost:8081/login',\n  body: {\n    username: 'test2@test.fr',\n    password: 'testtest'\n  }\n}).then(response => {\n  expect(response.status).to.eq(200);\n  expect(response.body).to.have.property('token');\n  authToken = response.body.token;\n});",
+              "err": {},
+              "uuid": "8bd68a3f-6269-47c8-8465-b23a15d417b0",
+              "parentUUID": "5c8975b7-c6b7-4c3f-b0a4-564c5ce05546",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "verify order lines",
+              "fullTitle": "adding a product to the cart verify order lines",
+              "timedOut": null,
+              "duration": 259,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.request({\n  method: 'GET',\n  url: 'http://localhost:8081/orders',\n  headers: {\n    Authorization: `Bearer ${authToken}`\n  }\n}).then(response => {\n  expect(response.status).to.eq(200);\n  orderLines = response.body.orderLines;\n  orderLines.forEach(line => {\n    cy.request({\n      method: 'DELETE',\n      url: 'http://localhost:8081/orders/' + line.id + '/delete',\n      headers: {\n        Authorization: `Bearer ${authToken}`\n      }\n    });\n  });\n});",
+              "err": {},
+              "uuid": "fdadec08-f438-4e74-b731-62e8bd746fc1",
+              "parentUUID": "5c8975b7-c6b7-4c3f-b0a4-564c5ce05546",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "adding a product to the cart",
+              "fullTitle": "adding a product to the cart adding a product to the cart",
+              "timedOut": null,
+              "duration": 4284,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "(0, _connection.connexion)();\n//On va sur la page des produits pour sélectionner le premier\ncy.get('[data-cy=\"nav-link-products\"]').click();\ncy.get('button').eq(0).should('contain', 'Consulter').click();\n//On ajoute au panier plusieurs quantités d'un même produit  \ncy.get('[data-cy=\"detail-product-quantity\"]').click();\ncy.get('[data-cy=\"detail-product-quantity\"]').clear();\ncy.get('[data-cy=\"detail-product-quantity\"]').type('22');\ncy.get('[data-cy=\"detail-product-add\"]').click();\n//On va sur le panier vérifier que le produit a bien été ajouté \ncy.get('[data-cy=\"nav-link-cart\"]').click();\ncy.contains('Vos informations').should('exist');\ncy.contains('Sentiments printaniers').should('be.visible');\ncy.get('input').eq(0).invoke('val').then(qttCart1 => {\n  stockCart1 = parseInt(qttCart1.split(' ')[0]);\n  cy.wrap(stockCart1).should('eq', 22);\n});\n//On va sur la page des produits pour sélectionner le second\ncy.get('[data-cy=\"nav-link-products\"]').click();\ncy.get('button').eq(4).should('contain', 'Consulter').click();\n//On ajoute au panier plusieurs quantités d'un même produit\ncy.get('[data-cy=\"detail-product-quantity\"]').click();\ncy.get('[data-cy=\"detail-product-quantity\"]').clear();\ncy.get('[data-cy=\"detail-product-quantity\"]').type('22');\ncy.get('[data-cy=\"detail-product-add\"]').click();\n//On va sur le panier vérifier que le produit a bien été ajouté \ncy.get('[data-cy=\"nav-link-cart\"]').click();\ncy.contains('Vos informations').should('exist');\ncy.contains('Extrait de nature').should('be.visible');\ncy.get('input').eq(1).invoke('val').then(qttCart2 => {\n  stockCart2 = parseInt(qttCart2.split(' ')[0]);\n  cy.wrap(stockCart2).should('eq', 22);\n});",
+              "err": {},
+              "uuid": "aae463dd-444d-4145-b899-c3b8559bdb4f",
+              "parentUUID": "5c8975b7-c6b7-4c3f-b0a4-564c5ce05546",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "8bd68a3f-6269-47c8-8465-b23a15d417b0",
+            "fdadec08-f438-4e74-b731-62e8bd746fc1",
+            "aae463dd-444d-4145-b899-c3b8559bdb4f"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 5013,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/report/mochawesome-report",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "charts": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

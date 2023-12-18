@@ -1,3 +1,5 @@
+import {connexion} from "../FUNCTIONS/connection"
+
 describe('adding a product to the cart', ()=> {
     let authToken;
     let orderLines;
@@ -44,14 +46,7 @@ describe('adding a product to the cart', ()=> {
 
     //On va sur le site 
     it('adding a product to the cart', () => {
-        cy.visit ('http://localhost:8080/#/')
-
-        // On se connecte en tant que client pour avoir accès au panier
-        cy.get ('[data-cy="nav-link-login"]').click();
-        cy.get ('[data-cy="login-input-username"]').type('test2@test.fr');
-        cy.get ('[data-cy="login-input-password"]').type('testtest');
-        cy.get ('[data-cy="login-submit"]').click();
-        cy.contains ('Mon panier').should('be.visible');
+        connexion ()
 
         //On va sur la page des produits pour en sélectionner un
         cy.get ('[data-cy="nav-link-products"]').click();
@@ -64,8 +59,8 @@ describe('adding a product to the cart', ()=> {
         cy.get ('[data-cy="detail-product-add"]').click();
 
         //On va sur le panier, le produit ne doit pas être présent
-        cy.get ('[data-cy="nav-link-cart"]').click() ;
-        cy.wait(1000)
+        cy.get ('[data-cy="nav-link-cart"]').click();
+        cy.wait(500)
         cy.contains ('Poussière de lune').should('not.exist');
     })
 })

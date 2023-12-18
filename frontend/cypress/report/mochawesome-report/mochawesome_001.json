@@ -1,0 +1,220 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 7,
+    "passes": 7,
+    "pending": 0,
+    "failures": 0,
+    "start": "2023-12-18T09:14:09.752Z",
+    "end": "2023-12-18T09:14:11.188Z",
+    "duration": 1436,
+    "testsRegistered": 7,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "0d507249-4c0b-4b10-80dc-0d6ffdec9294",
+      "title": "",
+      "fullFile": "cypress\\e2e\\API\\orders_api.cy.js",
+      "file": "cypress\\e2e\\API\\orders_api.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "558a8022-5147-4bd9-90b7-0e6d312c33b5",
+          "title": "access to shopping cart with api",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "login test true",
+              "fullTitle": "access to shopping cart with api login test true",
+              "timedOut": null,
+              "duration": 470,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.request({\n  method: 'POST',\n  url: 'http://localhost:8081/login',\n  body: {\n    username: 'test2@test.fr',\n    password: 'testtest'\n  }\n}).then(response => {\n  expect(response.status).to.eq(200);\n  expect(response.body).to.have.property('token');\n  authToken = response.body.token;\n});",
+              "err": {},
+              "uuid": "1b2c1cb8-9016-48fb-b49b-f1f4df50fd56",
+              "parentUUID": "558a8022-5147-4bd9-90b7-0e6d312c33b5",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "unauthorized",
+              "fullTitle": "access to shopping cart with api unauthorized",
+              "timedOut": null,
+              "duration": 87,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.request({\n  method: 'GET',\n  url: 'http://localhost:8081/orders',\n  failOnStatusCode: false\n}).then(response => {\n  expect(response.status).to.eq(401);\n});",
+              "err": {},
+              "uuid": "89589122-9ab9-4103-b45d-2a9255d8524a",
+              "parentUUID": "558a8022-5147-4bd9-90b7-0e6d312c33b5",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "authorized",
+              "fullTitle": "access to shopping cart with api authorized",
+              "timedOut": null,
+              "duration": 129,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.request({\n  method: 'GET',\n  url: 'http://localhost:8081/orders',\n  headers: {\n    Authorization: `Bearer ${authToken}`\n  }\n}).then(response => {\n  expect(response.status).to.eq(200);\n});",
+              "err": {},
+              "uuid": "835e3c38-417f-4237-9afc-fdbacd659d9d",
+              "parentUUID": "558a8022-5147-4bd9-90b7-0e6d312c33b5",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "verify order lines",
+              "fullTitle": "access to shopping cart with api verify order lines",
+              "timedOut": null,
+              "duration": 128,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.request({\n  method: 'GET',\n  url: 'http://localhost:8081/orders',\n  headers: {\n    Authorization: `Bearer ${authToken}`\n  }\n}).then(response => {\n  expect(response.status).to.eq(200);\n  const orderLines = response.body.orderLines;\n  expect(orderLines).length.to.be.greaterThan(0);\n});",
+              "err": {},
+              "uuid": "9fa1a74d-9b92-4386-94d6-4d780c569be7",
+              "parentUUID": "558a8022-5147-4bd9-90b7-0e6d312c33b5",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "view cart products",
+              "fullTitle": "access to shopping cart with api view cart products",
+              "timedOut": null,
+              "duration": 142,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.request({\n  method: 'GET',\n  url: 'http://localhost:8081/orders',\n  headers: {\n    Authorization: `Bearer ${authToken}`\n  }\n}).then(response => {\n  expect(response.status).to.eq(200);\n  response.body.orderLines.forEach(orderLine => {\n    expect(orderLine.product).to.be.an('object');\n  });\n});",
+              "err": {},
+              "uuid": "30560941-4f06-4024-9da7-e0d83231e887",
+              "parentUUID": "558a8022-5147-4bd9-90b7-0e6d312c33b5",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "adding a product with stock to the cart",
+              "fullTitle": "access to shopping cart with api adding a product with stock to the cart",
+              "timedOut": null,
+              "duration": 189,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.request({\n  method: 'PUT',\n  url: 'http://localhost:8081/orders/add',\n  headers: {\n    Authorization: `Bearer ${authToken}`\n  },\n  body: {\n    product: '10',\n    quantity: '1'\n  }\n}).then(response => {\n  expect(response.status).to.eq(200);\n});",
+              "err": {},
+              "uuid": "cb981325-a66f-48d0-aa9a-28459dc0a430",
+              "parentUUID": "558a8022-5147-4bd9-90b7-0e6d312c33b5",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "adding a product without stock to the cart",
+              "fullTitle": "access to shopping cart with api adding a product without stock to the cart",
+              "timedOut": null,
+              "duration": 192,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.request({\n  method: 'PUT',\n  url: 'http://localhost:8081/orders/add',\n  headers: {\n    Authorization: `Bearer ${authToken}`\n  },\n  body: {\n    product: '3',\n    quantity: '1'\n  }\n}).then(response => {\n  expect(response.status).to.eq(200);\n});",
+              "err": {},
+              "uuid": "0492e3b9-8d82-4240-ae4a-a5260aa43a1a",
+              "parentUUID": "558a8022-5147-4bd9-90b7-0e6d312c33b5",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "1b2c1cb8-9016-48fb-b49b-f1f4df50fd56",
+            "89589122-9ab9-4103-b45d-2a9255d8524a",
+            "835e3c38-417f-4237-9afc-fdbacd659d9d",
+            "9fa1a74d-9b92-4386-94d6-4d780c569be7",
+            "30560941-4f06-4024-9da7-e0d83231e887",
+            "cb981325-a66f-48d0-aa9a-28459dc0a430",
+            "0492e3b9-8d82-4240-ae4a-a5260aa43a1a"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 1337,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/report/mochawesome-report",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "charts": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}
