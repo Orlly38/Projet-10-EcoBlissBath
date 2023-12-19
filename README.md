@@ -5,7 +5,7 @@ La boutique prépare un site de vente en ligne.
 
 
 # Prérequis
-Vous avez besoin d'avoir Docker, Node.js, NPM, Cypress et le plugging Mochawesome.
+Vous avez besoin d'avoir Docker, Node.js, NPM, Cypress et le plugin Mochawesome
 
 
 # Lancer le projet 
